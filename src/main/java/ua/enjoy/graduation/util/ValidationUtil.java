@@ -10,6 +10,7 @@ import ua.enjoy.graduation.model.AbstractBaseEntity;
 import ua.enjoy.graduation.util.exception.NotFoundException;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -17,7 +18,7 @@ public class ValidationUtil {
 
     public static <T> List<T> checkEmptyList(List<T> list, String... msg) {
         if (CollectionUtils.isEmpty(list))
-            throw new NotFoundException("List is empty " + msg);
+            throw new NotFoundException("List is empty " + Arrays.toString(msg));
         return list;
     }
 

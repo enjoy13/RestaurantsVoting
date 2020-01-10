@@ -52,13 +52,13 @@ public class AdminUsersRestController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public void deleteById(@PathVariable int id) {
         userService.delete(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
+    public ResponseEntity<User> create(@Valid @RequestBody User user) {
         User created = userService.create(user);
         return getBody(created, getUri(created.getId(), ADMIN_USERS_URL));
     }

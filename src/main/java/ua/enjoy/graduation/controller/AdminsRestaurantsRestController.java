@@ -46,13 +46,13 @@ public class AdminsRestaurantsRestController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public void deleteById(@PathVariable int id) {
         restaurantService.deleteById(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         Restaurant created = restaurantService.create(restaurant);
         return getBody(created, getUri(created.getId(), ADMIN_RESTOURANTS_URL));
     }
