@@ -62,12 +62,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-rest &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-rest</artifactId>-->
-<!--        </dependency>-->
-
         <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-rest-hal-browser -->
         <dependency>
             <groupId>org.springframework.data</groupId>
