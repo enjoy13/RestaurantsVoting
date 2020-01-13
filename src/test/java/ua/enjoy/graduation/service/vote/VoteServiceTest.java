@@ -122,7 +122,7 @@ class VoteServiceTest extends AbstractServiceTest {
         newVote.setCreatedDate(getElevenLDT());
         voteService.create(newVote);
         assertThrows(VotingSaveExceptions.class, () ->
-                voteService.voting(newVote.getRestaurant().getName(), newVote.getUser().getId()));
+                voteService.voting(newVote.getRestaurant().getId(), newVote.getUser().getId()));
     }
 
     @Test
@@ -131,13 +131,13 @@ class VoteServiceTest extends AbstractServiceTest {
         newVote.setCreatedDate(getBeforeElevenLDT());
         voteService.create(newVote);
         getTestMatchers(Vote.class).assertMatch(
-                voteService.voting(newVote.getRestaurant().getName(), newVote.getUser().getId()), getNewVote());
+                voteService.voting(newVote.getRestaurant().getId(), newVote.getUser().getId()), getNewVote());
     }
 
     @Test
     void votingFirstTime() {
         getTestMatchers(Vote.class).assertMatch(
-                voteService.voting(getNewVote().getRestaurant().getName(), getNewVote().getUser().getId()),
+                voteService.voting(getNewVote().getRestaurant().getId(), getNewVote().getUser().getId()),
                 voteService.getVoteByCreatedDateBetweenAndUserId(LocalDate.now(), LocalDate.now(), getNewVote().getUser().getId()));
     }
 }

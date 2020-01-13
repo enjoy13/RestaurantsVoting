@@ -59,6 +59,47 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void findById() throws Exception {
+        perform(doGet("restaurants/" + getRestaurantOne().getId())
+                .basicAuth(getUSER()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(result -> getTestMatchers(Restaurant.class).contentJson(getRestaurantOne()));
+    }
+
+    @Test
+    void findByIdNotFound() throws Exception {
+        perform(doGet("restaurants/" + 0)
+                .basicAuth(getUSER()))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findByName() throws Exception {
+        perform(doGet("restaurants/byName")
+                .basicAuth(getUSER())
+                .unwrap()
+                .param("name", getRestaurantOne().getName()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(result -> getTestMatchers(Restaurant.class).contentJson(getRestaurantOne()));
+    }
+
+    @Test
+    void findByNameNotFound() throws Exception {
+        perform(doGet("restaurants/byName")
+                .basicAuth(getADMIN())
+                .unwrap()
+                .param("name", "sjkfhjkdsfhjks"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     void getMenuByRestaurantNameToday() throws Exception {
         perform(doGet("menu/" + getRestaurantName())
                 .basicAuth(getUSER()))
@@ -82,11 +123,10 @@ class UserRestControllerTest extends AbstractControllerTest {
         Vote newVote = getNewVote();
         newVote.setCreatedDate(getBeforeElevenLDT());
 
-        ResultActions action = perform(doPost("voting/")
+        ResultActions action = perform(doPost("voting/" + newVote.getRestaurant().getId())
                 .jsonBody(newVote)
                 .basicAuth(getUSER())
-                .unwrap()
-                .param("restaurantName", newVote.getRestaurant().getName()))
+                .unwrap())
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -97,16 +137,15 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void votingFirstTime() throws Exception {
-        perform(doPost("voting/")
+        perform(doPost("voting/" + getNewVote().getRestaurant().getId())
                 .jsonBody(getNewVote())
                 .basicAuth(getUSER())
-                .unwrap()
-                .param("restaurantName", getNewVote().getRestaurant().getName()))
+                .unwrap())
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(result ->  getTestMatchers(Vote.class).assertMatch(
-                        voteService.voting(getNewVote().getRestaurant().getName(), getNewVote().getUser().getId()),
+                        voteService.voting(getNewVote().getRestaurant().getId(), getNewVote().getUser().getId()),
                         voteService.getVoteByCreatedDateBetweenAndUserId(LocalDate.now(), LocalDate.now(), getNewVote().getUser().getId())));
     }
 
@@ -115,16 +154,15 @@ class UserRestControllerTest extends AbstractControllerTest {
         Vote newVote = getNewVote();
         newVote.setCreatedDate(getElevenLDT());
 
-        perform(doPost("voting/")
+        perform(doPost("voting/" + getNewVote().getRestaurant().getId())
                 .jsonBody(newVote)
                 .basicAuth(getHARRY())
-                .unwrap()
-                .param("restaurantName", newVote.getRestaurant().getName()))
+                .unwrap())
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         assertThrows(VotingSaveExceptions.class, () ->
-                voteService.voting(newVote.getRestaurant().getName(), newVote.getUser().getId()));
+                voteService.voting(newVote.getRestaurant().getId(), newVote.getUser().getId()));
     }
 
     @Test

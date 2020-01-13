@@ -30,57 +30,6 @@ class AdminsRestaurantsRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
-        perform(doGet()
-                .basicAuth(getADMIN()))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> getTestMatchers(Restaurant.class)
-                        .assertMatch(restaurantService.getAll(), getRestaurans()));
-    }
-
-    @Test
-    void findById() throws Exception {
-        perform(doGet(getRestaurantOne().getId())
-                .basicAuth(getADMIN()))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> getTestMatchers(Restaurant.class).contentJson(getRestaurantOne()));
-    }
-
-    @Test
-    void findByIdNotFound() throws Exception {
-        perform(doGet(0)
-                .basicAuth(getADMIN()))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void findByName() throws Exception {
-        perform(doGet("byName")
-                .basicAuth(getADMIN())
-                .unwrap()
-                .param("name", getRestaurantOne().getName()))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> getTestMatchers(Restaurant.class).contentJson(getRestaurantOne()));
-    }
-
-    @Test
-    void findByNameNotFound() throws Exception {
-        perform(doGet("byName")
-                .basicAuth(getADMIN())
-                .unwrap()
-                .param("name", "sjkfhjkdsfhjks"))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     void getUnauth() throws Exception {
         perform(doGet(getRestaurantOne().getId()))
                 .andDo(print())

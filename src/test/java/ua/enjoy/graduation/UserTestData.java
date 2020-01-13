@@ -16,8 +16,8 @@ import static ua.enjoy.graduation.util.UserUtil.asTo;
 @Getter
 public class UserTestData {
 
-    private static final User ADMIN = new User(1, "David", "david@gmail.com", "123456", Role.ROLE_ADMIN);
-    private static final User USER = new User(2, "Lee", "lee.grant@gmail.com", "654321", Role.ROLE_USER);
+    private static final User ADMIN = new User(1, "admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
+    private static final User USER = new User(2, "user", "user@gmail.com", "user", Role.ROLE_USER);
     private static final User SERGIO = new User(3, "Sergio", "sergio.romero@gmail.com", "qwerty", Role.ROLE_USER);
     private static final User JOEL = new User(4, "Joel", "joel.pereira@gmail.com", "ytrewq", Role.ROLE_USER);
     private static final User VICTOR = new User(5, "Victor", "victor.lindelof@gmail.com", "asdfgh", Role.ROLE_USER);

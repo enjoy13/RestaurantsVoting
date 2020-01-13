@@ -8,6 +8,7 @@ import ua.enjoy.graduation.model.Vote;
 import ua.enjoy.graduation.service.VoteService;
 import ua.enjoy.graduation.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -119,6 +120,7 @@ class AdminVoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void findByTodayNotFound() throws Exception {
+        voteService.findAllByCreateDate(LocalDate.now()).forEach(v -> voteService.delete(v.getId()));
         perform(doGet("today")
                 .basicAuth(getADMIN()))
                 .andDo(print())

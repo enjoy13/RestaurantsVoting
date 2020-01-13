@@ -26,24 +26,6 @@ public class AdminsRestaurantsRestController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping
-    @ResponseStatus(value = HttpStatus.OK)
-    public List<Restaurant> getAll() {
-        return restaurantService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Restaurant findById(@PathVariable int id) {
-        return restaurantService.findById(id);
-    }
-
-    @GetMapping("/byName")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Restaurant findByName(@RequestParam String name) {
-        return restaurantService.findByName(name);
-    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable int id) {

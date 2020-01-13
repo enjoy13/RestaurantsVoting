@@ -55,6 +55,18 @@ public class UserRestController {
         return restaurantService.getAll();
     }
 
+    @GetMapping("/restaurants/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Restaurant findById(@PathVariable int id) {
+        return restaurantService.findById(id);
+    }
+
+    @GetMapping("/restaurants/byName")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Restaurant findByName(@RequestParam String name) {
+        return restaurantService.findByName(name);
+    }
+
     @GetMapping("/menu/{name}")
     @ResponseStatus(HttpStatus.OK)
     public MenuTo getMenuByRestaurantNameToday(@PathVariable String name) {
@@ -62,10 +74,10 @@ public class UserRestController {
                 dishService.getAllByRestaurantNameToday(name));
     }
 
-    @PostMapping(value = "/voting", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/voting/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Vote> voting (@RequestParam String restaurantName){
-        Vote created = voteService.voting(restaurantName, authUserId());
+    public ResponseEntity<Vote> voting (@PathVariable int restaurantId){
+        Vote created = voteService.voting(restaurantId, authUserId());
         return getBody(created, getUri(created.getId(), USERS_REST_URL));
     }
 

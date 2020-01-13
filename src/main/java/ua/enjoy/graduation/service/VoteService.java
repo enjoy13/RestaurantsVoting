@@ -91,8 +91,8 @@ public class VoteService {
         return voteRepository.save(vote);
     }
 
-    public Vote voting(String name, int userId) {
-        Assert.notNull(name, "name must not be null");
+    public Vote voting(int restaurantId, int userId) {
+        Assert.notNull(restaurantId, "name must not be null");
         Vote voteByUserId = getVoteByCreatedDateBetweenAndUserId(LocalDate.now(), LocalDate.now(), userId);
 
         Vote vote= null;
@@ -100,7 +100,7 @@ public class VoteService {
         if (Objects.isNull(voteByUserId)) {
             vote = Vote.builder()
                     .user(userService.findById(userId))
-                    .restaurant(restaurantService.findByName(name))
+                    .restaurant(restaurantService.findById(restaurantId))
                     .build();
             return create(vote);
         } else if (isBefore(voteByUserId.getCreatedDate())) {
