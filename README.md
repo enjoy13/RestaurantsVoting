@@ -31,7 +31,7 @@ It should contain the code and README.md with API documentation and curl command
 
 `curl -s -X POST -d '{"name":"NewRestaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/restaurants --user admin@gmail.com:admin`
 
-- The administrator can also edit the restaurant selected by id http://localhost:8080/rest/admin/restaurants/{id}
+- The administrator can also edit the restaurant selected by id.
 We submit a restaurant object to the request body in JSON format: 
 
 `curl -s -X PUT -d '{"name":"UpdateRestaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/rest/admin/restaurants/5 --user admin@gmail.com:admin`
